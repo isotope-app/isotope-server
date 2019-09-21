@@ -1,0 +1,9 @@
+version: '3'
+services:
+  development:
+    image: rust
+    volumes:
+      - "../:/isotope"
+    command: "cargo run --manifest-path=/isotope/Cargo.toml"
+    ports:
+      - "8080:8080"
