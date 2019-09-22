@@ -1,4 +1,4 @@
 {% extends "components/base.html.tera" %}
 {% block body %}
-{{greeting}} world!
+hello world!
 {% endblock %}

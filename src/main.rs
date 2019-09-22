@@ -7,11 +7,12 @@ use actix_web::{middleware, web, App, HttpServer};
 use listenfd::ListenFd;
 
 mod api;
+mod util;
 
 fn main() {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
-    
+
     let mut listenfd = ListenFd::from_env();
     let mut server = HttpServer::new(|| {
         let templates: Tera = compile_templates!("templates/**/*");
