@@ -1,9 +1,12 @@
-version: '3'
+version: '2'
 services:
   development:
-    image: rust
+          #image: rust
+    build: ../
     volumes:
       - "../:/isotope"
-    command: "cargo run --manifest-path=/isotope/Cargo.toml"
+        #command: "cargo run --manifest-path=/isotope/Cargo.toml"    
+    command: "systemfd --no-pid -s 0.0.0.0:8080 -- cargo watch -x run"
+    working_dir: "/isotope"
     ports:
       - "8080:8080"
