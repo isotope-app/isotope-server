@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate tera;
 
+use actix_files as fs;
 use tera::Tera;
-
 use actix_web::{middleware, web, App, HttpServer};
 use listenfd::ListenFd;
 
@@ -20,6 +20,7 @@ fn main() {
             .data(templates)
             .wrap(middleware::Logger::default())
             .service(web::resource("/").to(api::index))
+            .service(fs::Files::new("/static", "static/"))
     });
 
     server = if let Some(l) = listenfd.take_tcp_listener(0).unwrap() {

@@ -7,6 +7,7 @@ pub fn index(
 
     let mut context = Context::new();
     context.insert("greeting", "hello");
+    context.insert("title", "hello world");
 
     let rendered = tmpl.render("index.html.tera", &context).map_err(|e| {
         error::ErrorInternalServerError(e.description().to_owned())

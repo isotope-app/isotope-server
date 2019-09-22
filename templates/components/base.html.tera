@@ -1,0 +1,27 @@
+<!doctype HTML> 
+<html lang="en">
+<head>
+    <title>
+        {{title}}
+    </title>
+    
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <meta charset="utf-8"> 
+</head>
+
+<body>
+{% block nav %}
+    {% include "components/nav.html.tera" %}
+{% endblock %}
+
+{% block body %}
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html.tera" %}
+{% endblock %}
+
+</body>
+</html>
