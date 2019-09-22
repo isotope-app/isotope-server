@@ -1,10 +1,16 @@
-use actix_web::{middleware, web, App, HttpRequest, HttpServer};
+extern crate actix_web;
+
+use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::http::{StatusCode};
 use listenfd::ListenFd;
 
 
-fn index(req: HttpRequest) -> &'static str {
-    println!("REQ: {:?}", req);
-    "Hello world!"
+fn index(req: HttpRequest) -> Result<HttpResponse>{
+    println!("{:?}", req);
+
+    Ok(HttpResponse::build(StatusCode::OK)
+        .content_type("text/html; charset=utf-8")
+        .body(include_str!("../static/html/index.html.tera")))
 }
 
 fn main() {
@@ -25,5 +31,6 @@ fn main() {
     }else{
         server.bind("0.0.0.0:8080").unwrap()
     };
+
     server.run().unwrap()
 } 
