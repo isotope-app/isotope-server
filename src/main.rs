@@ -1,17 +1,12 @@
-extern crate actix_web;
+#[macro_use]
+extern crate tera;
 
-use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
-use actix_web::http::{StatusCode};
+use tera::Tera;
+
+use actix_web::{middleware, web, App, HttpServer};
 use listenfd::ListenFd;
 
-
-fn index(req: HttpRequest) -> Result<HttpResponse>{
-    println!("{:?}", req);
-
-    Ok(HttpResponse::build(StatusCode::OK)
-        .content_type("text/html; charset=utf-8")
-        .body(include_str!("../static/html/index.html.tera")))
-}
+mod api;
 
 fn main() {
     std::env::set_var("RUST_LOG", "actix_web=info");
@@ -19,11 +14,12 @@ fn main() {
     
     let mut listenfd = ListenFd::from_env();
     let mut server = HttpServer::new(|| {
+        let templates: Tera = compile_templates!("templates/**/*");
         App::new()
             // enable logger
+            .data(templates)
             .wrap(middleware::Logger::default())
-            .service(web::resource("/index.html").to(|| "Hello world!"))
-            .service(web::resource("/").to(index))
+            .service(web::resource("/").to(api::index))
     });
 
     server = if let Some(l) = listenfd.take_tcp_listener(0).unwrap() {
