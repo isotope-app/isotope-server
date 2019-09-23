@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>
-        {{title}}
+        {{TITLE}}
     </title>
     
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">

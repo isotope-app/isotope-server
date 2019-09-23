@@ -1,17 +1,22 @@
 #[macro_use]
 extern crate tera;
+#[macro_use]
+extern crate dotenv_codegen;
+extern crate dotenv;
+
 
 use actix_files as fs;
 use tera::Tera;
 use actix_web::{middleware, web, App, HttpServer};
 use listenfd::ListenFd;
+use dotenv::dotenv;
 
 mod api;
-mod util;
 
 fn main() {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
+    dotenv().ok();
 
     let mut listenfd = ListenFd::from_env();
     let mut server = HttpServer::new(|| {
