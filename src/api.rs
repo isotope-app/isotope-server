@@ -1,5 +1,3 @@
-extern crate dotenv;
-
 use actix_web::{web, error, HttpResponse, Result};
 use tera::{Context, Tera};
 
