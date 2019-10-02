@@ -2,6 +2,9 @@ version: '2'
 services:
   development:
     build: .
+    volumes:
+      - "./:/isotope"
     command: "systemfd --no-pid -s 0.0.0.0:8080 -- cargo watch -x run"
-
-
+    working_dir: "/isotope"
+    ports:
+      - "8080:8080"
