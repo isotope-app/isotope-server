@@ -1,0 +1,22 @@
+version: '2'
+services:
+  isotope-server:
+    build: deployments/
+    volumes:
+      - "./:/isotope"
+    command: "cargo run"
+    working_dir: "/isotope"
+    ports:
+       - "8080:8080"
+       
+  mysql:
+    image: mysql:5.7
+    restart: always
+    env_file:
+      - .env 
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+volumes:
+  my-db:
