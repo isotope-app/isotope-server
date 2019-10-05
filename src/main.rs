@@ -29,7 +29,7 @@ fn main() {
     dotenv().ok();
  	let sys = actix::System::new("conduit");
 
-	let database_url = dotenv!("DATABASE_URL");
+	let database_url = dotenv!("MYSQL_DATABASE_URL");
 	let database_pool = new_pool(database_url).expect("Failed to create pool");
  	let _database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(database_pool.clone()));
 	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
@@ -49,7 +49,6 @@ fn main() {
     }else{
         server.bind(&bind_address).unwrap()
     };
-
 
     server.run().unwrap()
 } 
