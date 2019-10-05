@@ -2,16 +2,25 @@
 extern crate tera;
 #[macro_use]
 extern crate dotenv_codegen;
+#[macro_use]
+extern crate failure;
+#[macro_use]
+extern crate serde_json;
 extern crate dotenv;
+
+mod db;
+mod error;
+mod prelude;
 
 use crate::db::{new_pool, DbExecutor};
 
 use actix_files as fs;
-use actix::prelude::{Addr, SyncArbiter};
+use actix::prelude::{SyncArbiter};
 use actix_web::{middleware, web, App, HttpServer};
 use tera::Tera;
 use listenfd::ListenFd;
 use dotenv::dotenv;
+use std::env;
 
 mod api;
 
@@ -20,13 +29,15 @@ fn main() {
     env_logger::init();
     dotenv().ok();
 
-	let database_url = &dotenv!("DATABASE_URL");
+	let database_url = dotenv!("DATABASE_URL");
+
 	let database_pool = new_pool(database_url).expect("Failed to create pool");
-	let database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(datbase_pool.clone()));
+ 	let _database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(database_pool.clone()));
 	
-	let bind_address = &dotenv!("BIND_ADDRESS").expect("BIND ADDRESS is not set");
+	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
 
     let mut listenfd = ListenFd::from_env();
+
     let mut server = HttpServer::new(|| {
         let templates: Tera = compile_templates!("templates/**/*");
         App::new()
