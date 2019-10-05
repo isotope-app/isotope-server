@@ -7,7 +7,7 @@ The backend for the isotope app!
 To run the development server (with hot reloading!)
 ```
 cargo install diesel_cli --no-default-features --features postgres
-docker-compose -f docker-compose.yml -f deployments/development.yml up
+docker-compose -f deployments/development.yml up
 diesel setup 
 diesel migrate run
 ```
