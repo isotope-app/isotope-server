@@ -28,14 +28,14 @@ fn main() {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
     dotenv().ok();
+ 	let sys = actix::System::new("conduit");
 
 	let database_url = dotenv!("DATABASE_URL");
 
 	let database_pool = new_pool(database_url).expect("Failed to create pool");
  	let _database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(database_pool.clone()));
-	
-	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
 
+	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
     let mut listenfd = ListenFd::from_env();
 
     let mut server = HttpServer::new(|| {
