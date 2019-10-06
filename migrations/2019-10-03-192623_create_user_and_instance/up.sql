@@ -17,5 +17,6 @@ CREATE TABLE users(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_online TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     instance_id INTEGER NOT NULL,
+  	is_admin BOOLEAN NOT NULL DEFAULT false,
     FOREIGN KEY fk_instance_id(instance_id) REFERENCES instances(id) ON DELETE CASCADE
 );
