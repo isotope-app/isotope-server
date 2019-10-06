@@ -27,5 +27,4 @@ pub struct RegisterUser {
 		message = "fails validation, must be at least 8 characters long"
 	))]
 	pub password: String,
-	
 }
