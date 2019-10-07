@@ -1,3 +1,4 @@
+mod users;
 use clap::App;
 
 fn main(){
@@ -10,7 +11,8 @@ fn main(){
 	
 	match matches.subcommand(){
 		("users", Some(args))=>{
-			!println("users commands")
+			println!("users commands")
 		}
+		 _ => app.print_help().expect("Couldn't print help"),
 	}
 }
