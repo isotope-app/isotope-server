@@ -10,7 +10,7 @@ fn main(){
 	let matches = app.clone().get_matches();
 	
 	match matches.subcommand(){
-		("users", Some(args))=>{
+		("users", Some(_args))=>{
 			println!("users commands")
 		}
 		 _ => app.print_help().expect("Couldn't print help"),
