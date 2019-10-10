@@ -28,3 +28,31 @@ pub struct RegisterUser {
 	))]
 	pub password: String,
 }
+
+impl UserResponse {
+    fn create_with_auth(auth: Auth) -> Self {
+        UserResponse {
+            user: UserResponseInner {
+                token: auth.token,
+                email: auth.user.email,
+                username: auth.user.username,
+                bio: auth.user.bio,
+                image: auth.user.image,
+            },
+        }
+    }
+}
+
+pub fn register(
+    (form, state): (Json<In<RegisterUser>>, Data<AppState>),
+) -> impl Future<Item = HttpResponse, Error = Error> {
+    let register_user = form.into_inner().user;
+
+    result(register_user.validate())
+        .from_err()
+        .and_then(move |_| state.db.send(register_user).from_err())
+        .and_then(|res| match res {
+            Ok(res) => Ok(HttpResponse::Ok().json(res)),
+            Err(e) => Ok(e.error_response()),
+        })
+}

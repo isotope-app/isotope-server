@@ -14,6 +14,8 @@ CREATE TABLE users(
     password TEXT NOT NULL,
     bio VARCHAR(500),
     image TEXT,
+    role int NOT NULL DEFAULT 0,
+	display_name VARCHAR(25) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_online TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     instance_id INTEGER NOT NULL,

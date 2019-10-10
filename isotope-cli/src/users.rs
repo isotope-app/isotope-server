@@ -1,4 +1,8 @@
-use clap::{App, Arg, SubCommand};
+use clap::{App, Arg, ArgMatches, SubCommand};
+use rpassword;
+use std::io::{self, Write};
+
+use isotope_models::{users::*};
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -75,4 +79,28 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
                 )
                 .about("Reset user password"),
         )
+}
+
+fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
+	let username = args
+		.value_of("name")
+		.map(String::from)
+		.unwrap_or_else(|| super::ask_for("Username"));
+	let display_name = args
+		.value_of("display-name")
+		.map(String::from)
+		.unwrap_or_else(|| {
+			print!("Password: ");
+			io::stdout().flush().expect("Couldn't flush STDOUT");
+			rpassword::read_password().expect("Couldn't read your password.")
+		});
+	NewUser::new_local(
+		conn,
+		username,
+		display_name,
+		role,
+		&bio,
+		email,
+		User::hash_pass(&password).expect("Couldn't hash password"),
+	).expect("");
 }

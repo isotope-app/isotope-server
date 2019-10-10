@@ -1,5 +1,10 @@
-mod users;
+extern crate isotope_models;
+
+
 use clap::App;
+use std::io::{self, prelude::*};
+
+mod users;
 
 fn main(){
 	let mut app = App::new("Isotope CLI")
@@ -15,4 +20,15 @@ fn main(){
 		}
 		 _ => app.print_help().expect("Couldn't print help"),
 	}
+}
+
+pub fn ask_for(something: &str) -> String {
+    print!("{}: ", something);
+    io::stdout().flush().expect("Couldn't flush STDOUT");
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Unable to read line");
+    input.retain(|c| c != '\n');
+    input
 }
