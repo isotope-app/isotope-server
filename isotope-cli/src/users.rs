@@ -3,7 +3,6 @@ use rpassword;
 use std::io::{self, Write};
 use isotope_models::{Connection, users::*};
 
-
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
         .about("Manage users")

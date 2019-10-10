@@ -1,6 +1,6 @@
 use crate::prelude::*;
-use crate::Connection;
 use crate::schema::users;
+use {crate::db::Connection};
 
 pub enum Role {
     Admin = 0,

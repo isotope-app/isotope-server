@@ -7,8 +7,6 @@ extern crate dotenv;
 mod db;
 use isotope_models::{prelude};
 
-//mod error;
-//mod prelude;
 mod api;
 
 use crate::db::{db_conn::new_pool, db_conn::DbExecutor};
@@ -39,7 +37,8 @@ fn main() {
 	let database_pool = new_pool(database_url).expect("Failed to create pool");
  	let database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(database_pool.clone()));
 	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
-    let mut listenfd = ListenFd::from_env();
+    
+	let mut listenfd = ListenFd::from_env();
 
     let mut server = HttpServer::new( move || {
 		let state = AppState {
