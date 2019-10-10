@@ -1,8 +1,9 @@
 extern crate isotope_models;
 
-
 use clap::App;
 use std::io::{self, prelude::*};
+use isotope_models::{Connection as Conn};
+
 
 mod users;
 

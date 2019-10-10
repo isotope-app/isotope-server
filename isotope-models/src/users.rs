@@ -1,3 +1,5 @@
+use crate::prelude::*;
+use crate::Connection;
 use crate::schema::users;
 
 pub enum Role {
@@ -45,14 +47,19 @@ pub struct NewUser {
 
 }
 
+impl User {
+	pub fn hash_pass(pass: &str) -> Result<String> {
+    	bcrypt::hash(pass, 10).map_err(Error::from)
+	}
+}
+
 impl NewUser {
 	 pub fn new_local(
 	conn: &Connection,
-	id: i32,
     username: String,
     display_name: String,
-    email: Option<String>,
-    password: Option<String>,
+    email: String,
+    password: String,
     role: i32,
 	){}
 }

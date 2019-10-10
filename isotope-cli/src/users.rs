@@ -1,8 +1,8 @@
 use clap::{App, Arg, ArgMatches, SubCommand};
 use rpassword;
 use std::io::{self, Write};
+use isotope_models::{Connection, users::*};
 
-use isotope_models::{users::*, Connection};
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -82,25 +82,45 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
 }
 
 fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
-	let username = args
-		.value_of("name")
-		.map(String::from)
-		.unwrap_or_else(|| super::ask_for("Username"));
-	let display_name = args
-		.value_of("display-name")
-		.map(String::from)
-		.unwrap_or_else(|| {
-			print!("Password: ");
-			io::stdout().flush().expect("Couldn't flush STDOUT");
-			rpassword::read_password().expect("Couldn't read your password.")
-		});
+    let username = args
+        .value_of("name")
+        .map(String::from)
+        .unwrap_or_else(|| super::ask_for("Username"));
+    let display_name = args
+        .value_of("display-name")
+        .map(String::from)
+        .unwrap_or_else(|| super::ask_for("Display name"));
+
+    let admin = args.is_present("admin");
+    let moderator = args.is_present("moderator");
+    let role = if admin {
+        2
+    } else if moderator {
+        1
+    } else {
+        0
+    };
+
+    let bio = args.value_of("biography").unwrap_or("").to_string();
+    let email = args
+        .value_of("email")
+        .map(String::from)
+        .unwrap_or_else(|| super::ask_for("Email address"));
+    let password = args
+        .value_of("password")
+        .map(String::from)
+        .unwrap_or_else(|| {
+            print!("Password: ");
+            io::stdout().flush().expect("Couldn't flush STDOUT");
+            rpassword::read_password().expect("Couldn't read your password.")
+        });
+		
 	NewUser::new_local(
 		conn,
 		username,
 		display_name,
-		role,
-		&bio,
 		email,
 		User::hash_pass(&password).expect("Couldn't hash password"),
-	).expect("");
+		role,
+	)
 }
