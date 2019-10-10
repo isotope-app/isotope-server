@@ -2,15 +2,13 @@
 extern crate tera;
 #[macro_use]
 extern crate dotenv_codegen;
-#[macro_use]
-extern crate failure;
-#[macro_use]
-extern crate serde_json;
 extern crate dotenv;
 
 mod db;
-mod error;
-mod prelude;
+use isotope_models::{prelude};
+
+//mod error;
+//mod prelude;
 mod api;
 
 use crate::db::{db_conn::new_pool, db_conn::DbExecutor};
