@@ -3,5 +3,7 @@ extern crate chrono;
 extern crate diesel;
 extern crate ammonia;
 
+pub type Connection = diesel::MysqlConnection;
+
 pub mod users;
 pub mod schema;

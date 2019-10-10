@@ -2,7 +2,7 @@ use clap::{App, Arg, ArgMatches, SubCommand};
 use rpassword;
 use std::io::{self, Write};
 
-use isotope_models::{users::*};
+use isotope_models::{users::*, Connection};
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
