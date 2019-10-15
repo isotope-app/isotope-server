@@ -35,31 +35,55 @@ pub struct User {
 //    pub hide_custom_css: bool,
 }
 
-#[derive(Default, Insertable)]
-#[table_name = "users"]
+lazy_static! {
+    static ref RE_USERNAME: Regex = Regex::new(r"^[_0-9a-zA-Z]+$").unwrap();
+}
+
+#[derive(Debug, Validate, Deserialize)]
 pub struct NewUser {
-    pub id: i32,
+    #[validate(
+        length(
+            min = "1",
+            max = "20",
+            message = "fails validation - must be 1-20 characters long"
+        ),
+        regex(
+            path = "RE_USERNAME",
+            message = "fails validation - is not only alphanumeric/underscore characters"
+        )
+    )]
+    
     pub username: String,
-    pub display_name: String,
-    pub email: Option<String>,
-    pub password: Option<String>,
-    pub role: i32,
-
+    #[validate(email(message = "fails validation - is not a valid email address"))]
+    pub email:String, 
+    #[validate(length(
+            min="8", 
+            max="72", 
+            message="fails validation - must be 8-72 characters long"
+        ))]
+    pub password: String,
 }
 
-impl User {
-	pub fn hash_pass(pass: &str) -> Result<String> {
-    	bcrypt::hash(pass, 10).map_err(Error::from)
-	}
-}
-
-impl NewUser {
-	 pub fn new_local(
-	conn: &Connection,
-    username: String,
-    display_name: String,
-    email: String,
-    password: String,
-    role: i32,
-	){}
+#[derive(Debug)]
+pub struct NewUser{
+    #[validate(
+        length(
+            min = "1",
+            max = "20",
+            message = "fails validation - must be 8-72 characters long"
+        ),
+        regex(
+            path = "RE_USERNAME",
+            message = "fails validation - is not only alphanumeric/underscore characters"
+        )
+    )]
+    pub username: String,
+    #[validate(email(message = "fails validation - is not a valid email address"))]
+    pub email: String,
+    #[validate(length(
+        min = "8",
+        max = "72",
+        message = "fails validation - must be 8-72 characters long" 
+    ))]
+    pub password: String,
 }
