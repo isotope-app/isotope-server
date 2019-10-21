@@ -1,6 +1,8 @@
 use crate::prelude::*;
 use crate::schema::users;
 use {crate::db::Connection};
+use regex::Regex;
+use validator::Validate;
 
 pub enum Role {
     Admin = 0,
@@ -64,26 +66,4 @@ pub struct NewUser {
     pub password: String,
 }
 
-#[derive(Debug)]
-pub struct NewUser{
-    #[validate(
-        length(
-            min = "1",
-            max = "20",
-            message = "fails validation - must be 8-72 characters long"
-        ),
-        regex(
-            path = "RE_USERNAME",
-            message = "fails validation - is not only alphanumeric/underscore characters"
-        )
-    )]
-    pub username: String,
-    #[validate(email(message = "fails validation - is not a valid email address"))]
-    pub email: String,
-    #[validate(length(
-        min = "8",
-        max = "72",
-        message = "fails validation - must be 8-72 characters long" 
-    ))]
-    pub password: String,
-}
+

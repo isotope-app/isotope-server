@@ -8,13 +8,17 @@ edition = "2018"
 
 [dependencies]
 diesel = {version="1.4.2", features = ["mysql", "r2d2", "chrono"]}
-serde = "1.0"
+serde = { version = "1.0", features = ["derive"] }
 serde_derive = "1.0"
 ammonia = "2.1.1"
 bcrypt = "0.5"
 failure = "0.1.5"
 serde_json = "1.0.39"
 actix = "0.8.3"
+lazy_static = "1.4.0"
+regex = "1.1.6"
+validator = "0.8.0"
+validator_derive = "0.8.0"
 
 [dependencies.chrono]
 features = ["serde"]
