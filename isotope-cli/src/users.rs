@@ -1,7 +1,8 @@
 use clap::{App, Arg, ArgMatches, SubCommand};
 use rpassword;
 use std::io::{self, Write};
-use isotope_models::{Connection, users::*};
+use isotope_models::{users::*};
+
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -80,7 +81,16 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
         )
 }
 
-fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
+pub fn run<'a>(args: &ArgMatches<'a>) {
+    match args.subcommand() {
+        ("new", Some(x)) => new(x),
+//        ("reset-password", Some(x)) => reset_password(x),
+        ("", None) => command().print_help().unwrap(),
+        _ => println!("Unknown subcommand"),
+    }
+}
+
+fn new<'a>(args: &ArgMatches<'a>) {
     let username = args
         .value_of("name")
         .map(String::from)
@@ -115,7 +125,6 @@ fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
         });
 		
 	NewUser::new_local(
-		conn,
 		username,
 		display_name,
 		email,
@@ -123,3 +132,29 @@ fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
 		role,
 	)
 }
+
+
+//fn reset_password<'a>(args: &ArgMatches<'a>) {
+//    let username = args
+//        .value_of("name")
+//        .map(String::from)
+//        .unwrap_or_else(|| super::ask_for("Username"));
+//    let user = User::find_by_name(
+//        conn,
+//        &username,
+//        Instance::get_local()
+//            .expect("Failed to get local instance")
+//            .id,
+//    )
+//    .expect("Failed to get user");
+//    let password = args
+//        .value_of("password")
+//        .map(String::from)
+//        .unwrap_or_else(|| {
+//            print!("Password: ");
+//            io::stdout().flush().expect("Couldn't flush STDOUT");
+//            rpassword::read_password().expect("Couldn't read your password.")
+//        });
+//    user.reset_password(conn, &password)
+//        .expect("Failed to reset password");
+//}

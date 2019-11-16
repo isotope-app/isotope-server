@@ -1,9 +1,13 @@
-extern crate isotope_models;
+#[macro_use]
+extern crate dotenv_codegen;
+extern crate dotenv;
 
+extern crate isotope_models;
 use clap::App;
 use std::io::{self, prelude::*};
-use isotope_models::db::Connection as Conn;
-
+use actix::prelude::{SyncArbiter};
+use std::env;
+use isotope_models::{db::new_pool, db::DbExecutor};
 mod users;
 
 fn main(){
@@ -13,12 +17,16 @@ fn main(){
 		.about("A collection of tools to manage your Isotope instance")
 		.subcommand(users::command());
 	let matches = app.clone().get_matches();
-	let conn = Conn::establish(CONFIG.database_url.as_str());
-
+	
+	let database_url = dotenv!("MYSQL_DATABASE_URL");
+	let database_pool = new_pool(database_url).expect("Failed to create pool");
+ 	let database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(database_pool.clone()));
+	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
+    
 
 	match matches.subcommand(){
 		("users", Some(args))=>{
-            users::run(args, &conn.expect("Couldn't connect to the database."))
+			users::run(args)
         }	
 		 _ => app.print_help().expect("Couldn't print help"),
 	}

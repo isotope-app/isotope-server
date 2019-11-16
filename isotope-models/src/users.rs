@@ -1,8 +1,11 @@
-use crate::prelude::*;
 use crate::schema::users;
-use {crate::db::Connection};
+use crate::prelude::Result;
+use crate::prelude::Error;
+
 use regex::Regex;
 use validator::Validate;
+use bcrypt;
+
 
 pub enum Role {
     Admin = 0,
@@ -39,6 +42,24 @@ pub struct User {
 
 lazy_static! {
     static ref RE_USERNAME: Regex = Regex::new(r"^[_0-9a-zA-Z]+$").unwrap();
+}
+
+impl NewUser{
+	pub fn new_local(
+		username: String,
+		display_name: String,
+		email: String,
+		password: String,
+		role: u32,
+	){
+		
+	}
+}
+
+impl User{
+	  pub fn hash_pass(pass: &str) -> Result<String> {
+        bcrypt::hash(pass, 10).map_err(Error::from)
+    }
 }
 
 #[derive(Debug, Validate, Deserialize)]

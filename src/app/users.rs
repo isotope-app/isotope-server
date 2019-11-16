@@ -43,6 +43,15 @@ impl UserResponse {
     }
 }
 
+impl NewUser{
+	pub fn new_local(
+		username: String,
+		display_name: String,
+		email: String,
+		role: String,
+	)
+}
+
 pub fn register(
     (form, state): (Json<In<RegisterUser>>, Data<AppState>),
 ) -> impl Future<Item = HttpResponse, Error = Error> {
