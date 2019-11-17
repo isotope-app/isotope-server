@@ -3,7 +3,6 @@ use rpassword;
 use std::io::{self, Write};
 use isotope_models::{users::*};
 
-
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
         .about("Manage users")
@@ -81,16 +80,17 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
         )
 }
 
-pub fn run<'a>(args: &ArgMatches<'a>) {
+pub fn run<'a>(args: &ArgMatches<'a>, conn: &Connection) {
+	let conn = conn;
     match args.subcommand() {
-        ("new", Some(x)) => new(x),
+        ("new", Some(x)) => new(x, conn),
 //        ("reset-password", Some(x)) => reset_password(x),
         ("", None) => command().print_help().unwrap(),
         _ => println!("Unknown subcommand"),
     }
 }
 
-fn new<'a>(args: &ArgMatches<'a>) {
+fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
     let username = args
         .value_of("name")
         .map(String::from)
@@ -103,11 +103,11 @@ fn new<'a>(args: &ArgMatches<'a>) {
     let admin = args.is_present("admin");
     let moderator = args.is_present("moderator");
     let role = if admin {
-        2
+        Role::Admin
     } else if moderator {
-        1
+        Role::Moderator
     } else {
-        0
+        Role::Normal
     };
 
     let bio = args.value_of("biography").unwrap_or("").to_string();

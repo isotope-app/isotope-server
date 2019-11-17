@@ -1,6 +1,7 @@
 use crate::schema::users;
 use crate::prelude::*;
 
+
 use regex::Regex;
 use validator::Validate;
 use bcrypt;
@@ -45,15 +46,14 @@ lazy_static! {
 
 impl NewUser{
 	pub fn new_local(
+		conn: &Connection,
 		username: String,
 		display_name: String,
 		email: String,
 		password: String,
-		role: u32,
+		role: Role,
 	){
-		print!("{}", username);
-		print!("{}", display_name);
-		
+
 	}
 }
 

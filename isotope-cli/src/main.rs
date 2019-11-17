@@ -19,6 +19,7 @@ fn main(){
 	
 	let matches = app.clone().get_matches();
 	let database_url = dotenv!("MYSQL_DATABASE_URL");
+	
 	match matches.subcommand(){
 		("users", Some(args))=>{
 			users::run(args)
