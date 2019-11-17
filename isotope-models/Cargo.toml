@@ -23,4 +23,3 @@ validator_derive = "0.8.0"
 [dependencies.chrono]
 features = ["serde"]
 version = "0.4"
-

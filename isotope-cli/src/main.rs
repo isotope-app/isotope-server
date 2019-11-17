@@ -16,14 +16,9 @@ fn main(){
 		.version(env!("CARGO_PKG_VERSION"))
 		.about("A collection of tools to manage your Isotope instance")
 		.subcommand(users::command());
-	let matches = app.clone().get_matches();
 	
+	let matches = app.clone().get_matches();
 	let database_url = dotenv!("MYSQL_DATABASE_URL");
-	let database_pool = new_pool(database_url).expect("Failed to create pool");
- 	let database_address = SyncArbiter::start(num_cpus::get(), move || DbExecutor(database_pool.clone()));
-	let bind_address = env::var("BIND_ADDRESS").expect("BIND ADDRESS is not set");
-    
-
 	match matches.subcommand(){
 		("users", Some(args))=>{
 			users::run(args)

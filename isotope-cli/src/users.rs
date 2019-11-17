@@ -133,7 +133,6 @@ fn new<'a>(args: &ArgMatches<'a>) {
 	)
 }
 
-
 //fn reset_password<'a>(args: &ArgMatches<'a>) {
 //    let username = args
 //        .value_of("name")

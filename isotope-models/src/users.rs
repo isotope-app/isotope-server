@@ -1,6 +1,5 @@
 use crate::schema::users;
-use crate::prelude::Result;
-use crate::prelude::Error;
+use crate::prelude::*;
 
 use regex::Regex;
 use validator::Validate;
@@ -52,6 +51,8 @@ impl NewUser{
 		password: String,
 		role: u32,
 	){
+		print!("{}", username);
+		print!("{}", display_name);
 		
 	}
 }
