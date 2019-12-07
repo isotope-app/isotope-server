@@ -80,17 +80,16 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
         )
 }
 
-pub fn run<'a>(args: &ArgMatches<'a>, conn: &Connection) {
-	let conn = conn;
+pub fn run<'a>(args: &ArgMatches<'a>) {
     match args.subcommand() {
-        ("new", Some(x)) => new(x, conn),
+        ("new", Some(x)) => new(x),
 //        ("reset-password", Some(x)) => reset_password(x),
         ("", None) => command().print_help().unwrap(),
         _ => println!("Unknown subcommand"),
     }
 }
 
-fn new<'a>(args: &ArgMatches<'a>, conn: &Connection) {
+fn new<'a>(args: &ArgMatches<'a>) {
     let username = args
         .value_of("name")
         .map(String::from)
