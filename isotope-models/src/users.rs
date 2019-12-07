@@ -1,11 +1,13 @@
 use crate::schema::users;
 use crate::prelude::*;
 use actix::prelude::*;
+use diesel::prelude::*;
 use regex::Regex;
 use validator::Validate;
 use bcrypt;
 use actix::prelude::{Addr};
 use crate::db;
+
 
 pub enum Role {
     Admin = 0,
@@ -44,7 +46,7 @@ lazy_static! {
     static ref RE_USERNAME: Regex = Regex::new(r"^[_0-9a-zA-Z]+$").unwrap();
 }
 
-#[derive (Debug,  Validate, Deserialize, Insertable)]
+#[derive (Debug, Validate, Deserialize, Insertable)]
 #[table_name = "users"]
 pub struct NewUser {
 	pub id: i32,
@@ -72,8 +74,8 @@ pub struct NewUser {
 	pub image: String, 
 	pub role: i32,
 	pub display_name: String,
-	pub created_at: std::time::SystemTime,
-	pub last_online: std::time::SystemTime,
+	pub created_at: chrono::NaiveDateTime,
+	pub last_online: chrono::NaiveDateTime,
 	pub instance_id: i32,
 
 }
@@ -88,14 +90,15 @@ impl Handler<NewUser> for db::DbExecutor{
 	fn handle(&mut self, msg:NewUser, _: &mut Self::Context)-> Self::Result{
 		use crate::schema::users::dsl::*;
 		let conn = &self.0.get().expect("failed to get db connection");
-		
+
 		diesel::insert_into(users)
 			.values(&msg)
-			.get_result::<NewUser>(conn)
-			.map(UserResponse::from)
-			.map_err(|_| "failed to insert into DB".to_string())
+			.execute(conn)
+			.unwrap(); 
+		return Self::Result
 	}
 }
+
 
 impl NewUser{
 	pub fn new_local(
@@ -107,9 +110,18 @@ impl NewUser{
 		role: Role,
 	){
 		let new_local = NewUser{
+			id : 1,
 			username,
 			email,
-			password,
+			password, 
+			// TODO: FIX ALL OF THESE YOU NEED THEM
+			bio : "bio".to_string(),
+			image : "image".to_string(),
+			role : 0,
+			display_name : "display_name".to_string(),
+			created_at : chrono::offset::Utc::now().naive_utc(),
+			last_online : chrono::offset::Utc::now().naive_utc(),
+			instance_id : 0,
 		};
 		
 		db.send(new_local).from_err();
@@ -122,13 +134,19 @@ impl User{
     }
 }
 
-#[derive (Debug, Serialize)]
+#[derive (Debug)]
 pub struct UserResponse{
-	pub username: String, 
-	pub display_name: String, 
-	pub email: String,
-	pub password: String,
-	pub role: String,
+	pub id: i32,
+    pub username: String,
+    pub email:String, 
+    pub password: String,
+	pub bio: String,
+	pub image: String, 
+	pub role: i32,
+	pub display_name: String,
+	pub created_at: chrono::NaiveDateTime,
+	pub last_online: chrono::NaiveDateTime,
+	pub instance_id: i32,
 }
 
 
