@@ -24,6 +24,8 @@ pub enum Error{
 	
 	#[fail(display = "Failed to encrypt:")]
 	EncryptionError,
+	
+	
 }
 
 impl From<PoolError> for Error {

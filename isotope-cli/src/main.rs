@@ -1,16 +1,12 @@
-#[macro_use]
-extern crate dotenv_codegen;
-extern crate dotenv;
-
-extern crate isotope_models;
 use clap::App;
 use std::io::{self, prelude::*};
-use actix::prelude::{SyncArbiter};
 use std::env;
-use isotope_models::{db::new_pool, db::DbExecutor};
+use isotope_models::db;
+use dotenv::dotenv;
 mod users;
 
 fn main(){
+	dotenv().ok();
 	let mut app = App::new("Isotope CLI")
 		.bin_name("isotope")
 		.version(env!("CARGO_PKG_VERSION"))
@@ -18,11 +14,13 @@ fn main(){
 		.subcommand(users::command());
 	
 	let matches = app.clone().get_matches();
-	let database_url = dotenv!("MYSQL_DATABASE_URL");
+	let database_url = env::var("MYSQL_DATABASE_URL").expect("should load the database URL");
+		
+	let db = db::start_db(database_url);
 	
 	match matches.subcommand(){
 		("users", Some(args))=>{
-			users::run(args)
+			users::run(args, db)
         }	
 		 _ => app.print_help().expect("Couldn't print help"),
 	}

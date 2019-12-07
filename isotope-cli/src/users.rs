@@ -1,5 +1,7 @@
 use clap::{App, Arg, ArgMatches, SubCommand};
+use actix::prelude::{Addr};
 use rpassword;
+use isotope_models::db;
 use std::io::{self, Write};
 use isotope_models::{users::*};
 
@@ -80,16 +82,16 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
         )
 }
 
-pub fn run<'a>(args: &ArgMatches<'a>) {
+pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
     match args.subcommand() {
-        ("new", Some(x)) => new(x),
+        ("new", Some(x)) => new(x, db),
 //        ("reset-password", Some(x)) => reset_password(x),
         ("", None) => command().print_help().unwrap(),
         _ => println!("Unknown subcommand"),
     }
 }
 
-fn new<'a>(args: &ArgMatches<'a>) {
+fn new<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
     let username = args
         .value_of("name")
         .map(String::from)
@@ -98,7 +100,7 @@ fn new<'a>(args: &ArgMatches<'a>) {
         .value_of("display-name")
         .map(String::from)
         .unwrap_or_else(|| super::ask_for("Display name"));
-
+// ask for admin, moderator, all of these 
     let admin = args.is_present("admin");
     let moderator = args.is_present("moderator");
     let role = if admin {
@@ -124,6 +126,7 @@ fn new<'a>(args: &ArgMatches<'a>) {
         });
 		
 	NewUser::new_local(
+		db,
 		username,
 		display_name,
 		email,

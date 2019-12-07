@@ -1,8 +1,5 @@
-extern crate chrono;
 #[macro_use]
 extern crate diesel;
-extern crate ammonia;
-extern crate bcrypt;
 #[macro_use]
 extern crate failure;
 #[macro_use]

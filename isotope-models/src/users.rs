@@ -1,11 +1,11 @@
 use crate::schema::users;
 use crate::prelude::*;
-
-
+use actix::prelude::*;
 use regex::Regex;
 use validator::Validate;
 use bcrypt;
-
+use actix::prelude::{Addr};
+use crate::db;
 
 pub enum Role {
     Admin = 0,
@@ -44,27 +44,10 @@ lazy_static! {
     static ref RE_USERNAME: Regex = Regex::new(r"^[_0-9a-zA-Z]+$").unwrap();
 }
 
-impl NewUser{
-	pub fn new_local(
-		conn: &Connection,
-		username: String,
-		display_name: String,
-		email: String,
-		password: String,
-		role: Role,
-	){
-
-	}
-}
-
-impl User{
-	  pub fn hash_pass(pass: &str) -> Result<String> {
-        bcrypt::hash(pass, 10).map_err(Error::from)
-    }
-}
-
-#[derive(Debug, Validate, Deserialize)]
+#[derive (Debug,  Validate, Deserialize, Insertable)]
+#[table_name = "users"]
 pub struct NewUser {
+	pub id: i32,
     #[validate(
         length(
             min = "1",
@@ -76,7 +59,6 @@ pub struct NewUser {
             message = "fails validation - is not only alphanumeric/underscore characters"
         )
     )]
-    
     pub username: String,
     #[validate(email(message = "fails validation - is not a valid email address"))]
     pub email:String, 
@@ -86,6 +68,68 @@ pub struct NewUser {
             message="fails validation - must be 8-72 characters long"
         ))]
     pub password: String,
+	pub bio: String,
+	pub image: String, 
+	pub role: i32,
+	pub display_name: String,
+	pub created_at: std::time::SystemTime,
+	pub last_online: std::time::SystemTime,
+	pub instance_id: i32,
+
 }
+
+impl Message for NewUser{
+	//how does this work >:((((
+	type Result = Result<UserResponse>;
+}
+
+impl Handler<NewUser> for db::DbExecutor{
+	type Result = <NewUser as Message>::Result;
+	fn handle(&mut self, msg:NewUser, _: &mut Self::Context)-> Self::Result{
+		use crate::schema::users::dsl::*;
+		let conn = &self.0.get().expect("failed to get db connection");
+		
+		diesel::insert_into(users)
+			.values(&msg)
+			.get_result::<NewUser>(conn)
+			.map(UserResponse::from)
+			.map_err(|_| "failed to insert into DB".to_string())
+	}
+}
+
+impl NewUser{
+	pub fn new_local(
+		db: Addr<db::DbExecutor>,
+		username: String,
+		display_name: String,
+		email: String,
+		password: String,
+		role: Role,
+	){
+		let new_local = NewUser{
+			username,
+			email,
+			password,
+		};
+		
+		db.send(new_local).from_err();
+	}
+}
+
+impl User{
+	  pub fn hash_pass(pass: &str) -> Result<String> {
+        bcrypt::hash(pass, 10).map_err(Error::from)
+    }
+}
+
+#[derive (Debug, Serialize)]
+pub struct UserResponse{
+	pub username: String, 
+	pub display_name: String, 
+	pub email: String,
+	pub password: String,
+	pub role: String,
+}
+
 
 
