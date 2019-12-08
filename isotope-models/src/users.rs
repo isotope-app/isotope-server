@@ -8,7 +8,6 @@ use bcrypt;
 use actix::prelude::{Addr};
 use crate::db;
 
-
 pub enum Role {
     Admin = 0,
     Moderator = 1,
@@ -122,7 +121,6 @@ impl NewUser{
 			last_online : chrono::offset::Utc::now().naive_utc(),
 			instance_id : 0,
 		};
-		
 		db.send(new_local);
 	}
 }
