@@ -81,8 +81,7 @@ pub struct NewUser {
 }
 
 impl Message for NewUser{
-	//how does this work >:((((
-	type Result = Result<UserResponse>;
+	type Result = Result<usize>;
 }
 
 impl Handler<NewUser> for db::DbExecutor{
@@ -94,8 +93,8 @@ impl Handler<NewUser> for db::DbExecutor{
 		diesel::insert_into(users)
 			.values(&msg)
 			.execute(conn)
-			.unwrap(); 
-		return Self::Result
+			.map(usize::from)
+			.map_err(|e| Error::DieselError(e))
 	}
 }
 
@@ -132,6 +131,11 @@ impl User{
 	  pub fn hash_pass(pass: &str) -> Result<String> {
         bcrypt::hash(pass, 10).map_err(Error::from)
     }
+}
+
+#[derive (Debug)]
+pub struct TestResponse{
+	pub id: i32,
 }
 
 #[derive (Debug)]

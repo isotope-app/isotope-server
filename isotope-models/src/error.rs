@@ -14,7 +14,10 @@ pub enum Error{
 	InternalServerError,	
 	
 	#[fail(display = "Database error {:?}", _0)]
-	DatabaseError(PoolError),
+	DbPoolError(PoolError),
+	
+	#[fail(display = "Diesel error {:?}", _0)]
+	DieselError(DieselError),
 	
 	#[fail(display = "Unprocessable Entity: {}", _0)]
 	UnprocessableEntity(JsonValue),
@@ -28,7 +31,7 @@ pub enum Error{
 
 impl From<PoolError> for Error {
     fn from(error: PoolError) -> Self {
-        Error::DatabaseError(error)
+        Error::DbPoolError(error)
     }
 }
 
