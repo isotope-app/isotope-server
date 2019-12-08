@@ -27,7 +27,6 @@ fn main() -> std::io::Result<()>{
 		 _ => app.print_help().expect("Couldn't print help"),
 	}	
 	sys.run()?;
-	sys.stop()?;
 	Ok(())
 }
 

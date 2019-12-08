@@ -27,7 +27,14 @@ pub enum Error{
 	
 	#[fail(display = "Failed to encrypt:")]
 	EncryptionError,
+	
 }
+
+//impl From<()> for Error{
+//	fn from(e::<()>) ->Self{
+//		Error::DbPoolError(e)
+//	}
+//}
 
 impl From<PoolError> for Error {
     fn from(error: PoolError) -> Self {

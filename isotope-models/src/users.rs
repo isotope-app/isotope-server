@@ -7,6 +7,9 @@ use validator::Validate;
 use bcrypt;
 use actix::prelude::{Addr};
 use crate::db;
+use crate::error;
+//use futures::{FutureExt, TryFutureExt};
+use futures::compat::Future01CompatExt;
 
 pub enum Role {
     Admin = 0,
@@ -99,14 +102,14 @@ impl Handler<NewUser> for db::DbExecutor{
 
 
 impl NewUser{
-	pub fn new_local(
+	pub async fn new_local(
 		db: Addr<db::DbExecutor>,
 		username: String,
-		display_name: String,
+		_display_name: String,
 		email: String,
 		password: String,
-		role: Role,
-	){
+		_role: Role,
+	) -> Result<String>{
 		let new_local = NewUser{
 			id : 1,
 			username,
@@ -121,7 +124,13 @@ impl NewUser{
 			last_online : chrono::offset::Utc::now().naive_utc(),
 			instance_id : 0,
 		};
-		db.send(new_local);
+		
+    	let response = db.send(new_local).compat().await.map_err(|_| ())?;
+		//TODO: fix this vvv whole shit this is not how to do this
+		match response{
+        	Ok(_new_local) => Ok("nice".to_string()),
+			Err(e) => Ok(e.to_string())
+		}
 	}
 }
 
@@ -131,9 +140,8 @@ impl User{
     }
 }
 
-#[derive (Debug)]
-pub struct TestResponse{
-	pub id: i32,
+pub struct ExampleResult{
+	pub id:usize
 }
 
 #[derive (Debug)]

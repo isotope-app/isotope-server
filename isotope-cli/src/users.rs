@@ -111,7 +111,7 @@ fn new<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
         Role::Normal
     };
 
-    let bio = args.value_of("biography").unwrap_or("").to_string();
+    let _bio = args.value_of("biography").unwrap_or("").to_string();
     let email = args
         .value_of("email")
         .map(String::from)

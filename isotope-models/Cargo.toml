@@ -20,6 +20,8 @@ regex = "1.1.6"
 validator = "0.8.0"
 validator_derive = "0.8.0"
 num_cpus = "1.10.0"
+futures01 = { package = "futures", version = "0.1.29", optional = true }
+futures-preview = { version = "0.3.0-alpha.19", features = ["compat"] }
 
 [dependencies.chrono]
 features = ["serde"]
