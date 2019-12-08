@@ -123,7 +123,7 @@ impl NewUser{
 			instance_id : 0,
 		};
 		
-		db.send(new_local).from_err();
+		db.send(new_local);
 	}
 }
 
