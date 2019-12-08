@@ -5,25 +5,27 @@ use isotope_models::db;
 use dotenv::dotenv;
 mod users;
 
-fn main(){
+fn main() -> std::io::Result<()>{
 	dotenv().ok();
 	let mut app = App::new("Isotope CLI")
 		.bin_name("isotope")
 		.version(env!("CARGO_PKG_VERSION"))
 		.about("A collection of tools to manage your Isotope instance")
 		.subcommand(users::command());
-	
 	let matches = app.clone().get_matches();
-	let database_url = env::var("MYSQL_DATABASE_URL").expect("should load the database URL");
-		
-	let db = db::start_db(database_url);
 	
+	actix::System::new("isotope-cli").run()?;
+	
+	let database_url = env::var("MYSQL_DATABASE_URL").expect("should load the database URL");
+	let db = db::start_db(database_url);
+		
 	match matches.subcommand(){
 		("users", Some(args))=>{
 			users::run(args, db)
         }	
 		 _ => app.print_help().expect("Couldn't print help"),
-	}
+	}	
+	Ok(())
 }
 
 pub fn ask_for(something: &str) -> String {
