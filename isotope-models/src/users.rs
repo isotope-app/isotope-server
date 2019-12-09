@@ -124,12 +124,12 @@ impl NewUser{
 			last_online : chrono::offset::Utc::now().naive_utc(),
 			instance_id : 0,
 		};
-		
+		print!("aaaaaaaaaaaaaaaaa");
     	let response = db.send(new_local).compat().await.map_err(|_| ())?;
 		//TODO: fix this vvv whole shit this is not how to do this
 		match response{
-        	Ok(_new_local) => Ok("nice".to_string()),
-			Err(e) => Ok(e.to_string())
+        	Ok(_new_local) => Ok("cool".to_string()),
+			Err(_e) => Ok("hello".to_string())
 		}
 	}
 }

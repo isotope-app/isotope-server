@@ -28,13 +28,25 @@ pub enum Error{
 	#[fail(display = "Failed to encrypt:")]
 	EncryptionError,
 	
+	#[fail(display = "generic error")]
+	GenericError
 }
 
 //impl From<()> for Error{
-//	fn from(e::<()>) ->Self{
+//	fn from(e::<()>) ->Self{)
 //		Error::DbPoolError(e)
 //	}
 //}
+
+pub struct GenericError{
+	pub value: String
+}
+
+impl From<()> for Error{
+	fn from(_error: ()) -> Self{
+		Error::GenericError
+	}
+}
 
 impl From<PoolError> for Error {
     fn from(error: PoolError) -> Self {

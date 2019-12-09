@@ -1,4 +1,4 @@
-FROM rust
+FROM rust:1.39
 
 RUN cargo install systemfd cargo-watch
 

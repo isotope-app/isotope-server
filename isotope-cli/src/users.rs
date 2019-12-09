@@ -132,7 +132,7 @@ fn new<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
 		email,
 		User::hash_pass(&password).expect("Couldn't hash password"),
 		role,
-	)
+	);
 }
 
 //fn reset_password<'a>(args: &ArgMatches<'a>) {
