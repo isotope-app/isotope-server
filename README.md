@@ -1,6 +1,6 @@
-# Isotope Server 
+# PicoPik Server 
 
-The backend for the isotope app! 
+The backend for the PicoPik app! 
 
 # Running 
 
