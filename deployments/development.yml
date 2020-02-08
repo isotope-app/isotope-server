@@ -1,11 +1,11 @@
 version: '2'
 services:
-  isotope-server:
+  picopik-server:
     build: .
     volumes:
-      - "../:/isotope"
+      - "../:/picopik"
     command: "systemfd --no-pid -s 0.0.0.0:8080 -- cargo watch -x run"
-    working_dir: "/isotope"
+    working_dir: "/picopik"
     ports:
       - "8080:8080"
 
