@@ -2,10 +2,10 @@ mod users;
 use clap::App;
 
 fn main(){
-	let mut app = App::new("Isotope CLI")
-		.bin_name("isotope")
+	let mut app = App::new("picopik CLI")
+		.bin_name("picopik")
 		.version(env!("CARGO_PKG_VERSION"))
-		.about("A collection of tools to manage your Isotope instance")
+		.about("A collection of tools to manage your picopik instance")
 		.subcommand(users::command());
 	let matches = app.clone().get_matches();
 	

@@ -1,8 +1,8 @@
-#!/bin/bash
+!/bin/bash
 
 set -e
-echo "installing isotope cli....."
+echo "installing picopik cli....."
 
-cargo install --path isotope-cli
+cargo install --path picopik-cli
 
 exec "$@"
