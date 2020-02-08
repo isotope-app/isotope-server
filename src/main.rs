@@ -5,7 +5,7 @@ extern crate dotenv_codegen;
 extern crate dotenv;
 
 mod db;
-use isotope_models::{prelude};
+use picopik_models::{prelude};
 
 mod api;
 

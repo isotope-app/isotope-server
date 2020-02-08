@@ -1,9 +1,9 @@
 use clap::{App, Arg, ArgMatches, SubCommand};
 use actix::prelude::{Addr};
 use rpassword;
-use isotope_models::db;
+use picopik_models::db;
 use std::io::{self, Write};
-use isotope_models::{users::*};
+use picopik_models::{users::*};
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")

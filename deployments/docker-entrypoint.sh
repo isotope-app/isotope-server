@@ -1,14 +1,13 @@
 #!/bin/bash
 
 set -e
-
-file="/isotope/isotope-cli"
+file="/picopik/picopik-cli"
 
 if [ -e "$file" ]; then
-	echo "isotope cli already installed"
+	echo "picopik cli already installed"
 else
-	echo "installing isotope cli....."
-	cargo install --path isotope-cli
+	echo "installing picopik cli....."
+	cargo install --path picopik-cli
 fi
 
 exec "$@"

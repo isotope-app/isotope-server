@@ -1,5 +1,5 @@
 [package]
-name = "isotope-models"
+name = "picopik-models"
 version = "0.1.0"
 authors = ["Skyler Jane Clark <skylerjaneclark@gmail.com>"]
 edition = "2018"

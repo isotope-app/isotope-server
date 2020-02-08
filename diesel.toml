@@ -2,4 +2,4 @@
 # see diesel.rs/guides/configuring-diesel-cli
 
 [print_schema]
-file = "isotope-models/src/schema.rs"
+file = "picopik-models/src/schema.rs"
