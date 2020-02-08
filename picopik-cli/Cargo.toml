@@ -1,5 +1,5 @@
 [package]
-name = "isotope-cli"
+name = "picopik-cli"
 version = "0.1.0"
 authors = ["Skyler Jane Clark <skylerjaneclark@gmail.com>"]
 edition = "2018"
@@ -10,5 +10,5 @@ edition = "2018"
 clap = "2.33"
 
 [[bin]]
-name = "isotope-cli"
+name = "picopik-cli"
 path = "src/main.rs"
