@@ -17,7 +17,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - my-db:/var/lib/mysql
+      - picopik:/var/lib/mysql
 volumes:
-  my-db:
+  picopik:
       
