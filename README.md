@@ -5,6 +5,9 @@ The backend for the isotope app!
 # Running 
 
 To run the development server (with hot reloading!)
+
+Install `postgresql-devel` and `libpq-dev`
+
 ```
 cargo install diesel_cli --no-default-features --features postgres
 docker-compose -f deployments/development.yml up
