@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+
 file="/picopik/picopik-cli"
 
 if [ -e "$file" ]; then
