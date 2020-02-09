@@ -16,12 +16,14 @@ fn main(){
 	let matches = app.clone().get_matches();
     let database_url = env::var("MYSQL_DATABASE_URL").expect("should return the mysql databse");
     
+    actix::System::run(move || {
     let db = db::start_db(database_url);
 	match matches.subcommand(){
 		("users", Some(args))=>{
 			users::run(args, db)
 		}
 		 _ => app.print_help().expect("Couldn't print help"),
-	}
-    ;
+	};
+    actix::System::stop;
+    });
 }

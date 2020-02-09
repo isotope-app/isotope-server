@@ -64,7 +64,7 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
 pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
     match args.subcommand() {
         ("new", Some(x)) => new(x, db),
-        ("", None) => command().print_help().unwrap(),
+//        ("", None) => command().print_help().unwrap(),
         _ => println!("Unknown subcommand"),
     }
 }
