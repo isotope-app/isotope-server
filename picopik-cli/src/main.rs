@@ -19,7 +19,6 @@ fn main(){
    
 	match matches.subcommand(){
 		("users", Some(args))=>{
-            print!("hellos")
 			users::run(args, db)
 		}
 		 _ => app.print_help().expect("Couldn't print help"),
