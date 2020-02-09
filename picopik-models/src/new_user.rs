@@ -14,7 +14,8 @@ impl Handler <NewUser> for DbExecutor{
     fn handle(&mut self, msg:NewUser, _: &mut Self::Context) -> Self::Result {
         use crate::schema::users::dsl::*;
 
-        let new_user = NewUser{
+        let new_user = User{
+            id: "aa".to_string(),
             username: msg.username,
         };
         
@@ -34,5 +35,3 @@ impl Handler <NewUser> for DbExecutor{
 struct State{
     db: Addr<DbExecutor>,
 }
-
-

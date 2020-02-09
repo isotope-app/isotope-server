@@ -2,7 +2,6 @@ use clap::{App, Arg, SubCommand, ArgMatches};
 use picopik_models::{db};
 use picopik_models::{users::*};
 use actix::prelude::{Addr};
-use chrono;
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -72,12 +71,7 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
 
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
     let username = args.value_of("name").map(String::from);
-    let email = args.value_of("email").map(String::from);
-    let password = args.value_of("password").map(String::from);
     db.send(NewUser{
-            id: 1,
-            username: "".to_string(),
-            email: "".to_string(),
-            password: "".to_string(),
+            username: username.unwrap(),
     });
 }
