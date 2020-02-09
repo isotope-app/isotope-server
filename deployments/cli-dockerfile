@@ -1,8 +1,11 @@
 FROM rust
 
+RUN mkdir /picopik
+RUN cd /picopik
+RUN mkdir /picopik-server
 RUN cargo install systemfd cargo-watch
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
-ENTRYPOINT ["docker-entrypoint.sh"]
+COPY cli-docker-entrypoint.sh /usr/local/bin/
+RUN ln -s /usr/local/bin/cli-docker-entrypoint.sh / # backwards compat
+ENTRYPOINT ["cli-docker-entrypoint.sh"]
 CMD ["picopik-cli"]

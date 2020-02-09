@@ -2,16 +2,14 @@
 extern crate tera;
 #[macro_use]
 extern crate dotenv_codegen;
-#[macro_use]
-extern crate failure;
-#[macro_use]
-extern crate serde_json;
 extern crate dotenv;
 
-mod db;
-mod error;
-mod prelude;
+//mod error;
 mod api;
+
+mod db;
+use picopik_models::{prelude};
+
 
 use crate::db::{db_conn::new_pool, db_conn::DbExecutor};
 use crate::api::{routes::routes};
