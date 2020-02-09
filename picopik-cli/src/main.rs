@@ -3,9 +3,7 @@ use clap::App;
 use std::env;
 use picopik_models::db;
 
-fn main(){
-    
-    let sys = actix::System::new("picopik-cli");
+fn main() -> std::io::Result<()>{
     let mut app = App::new("picopik CLI")
 		.bin_name("picopik")
 		.version(env!("CARGO_PKG_VERSION"))
@@ -25,5 +23,5 @@ fn main(){
 		 _ => app.print_help().expect("Couldn't print help"),
 	};
     actix::System::current().stop();
-    });
+    })
 }

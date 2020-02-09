@@ -16,48 +16,6 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
                         .takes_value(true)
                         .help("The username of the new user"),
                 )
-                .arg(
-                    Arg::with_name("display-name")
-                        .short("N")
-                        .long("display-name")
-                        .takes_value(true)
-                        .help("The display name of the new user"),
-                )
-                .arg(
-                    Arg::with_name("biography")
-                        .short("b")
-                        .long("bio")
-                        .alias("biography")
-                        .takes_value(true)
-                        .help("The biography of the new user"),
-                )
-                .arg(
-                    Arg::with_name("email")
-                        .short("e")
-                        .long("email")
-                        .takes_value(true)
-                        .help("Email address of the new user"),
-                )
-                .arg(
-                    Arg::with_name("password")
-                        .short("p")
-                        .long("password")
-                        .takes_value(true)
-                        .help("The password of the new user"),
-                )
-                .arg(
-                    Arg::with_name("admin")
-                        .short("a")
-                        .long("admin")
-                        .help("Makes the user an administrator of the instance"),
-                )
-                .arg(
-                    Arg::with_name("moderator")
-                        .short("m")
-                        .long("moderator")
-                        .help("Makes the user a moderator of the instance"),
-                )
-                .about("Create a new user on this instance"),
         )
 }
 

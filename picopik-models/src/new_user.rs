@@ -1,5 +1,5 @@
 use crate::db::*;
-use actix::{Handler, Message, Addr};
+use actix::{Handler, Message};
 use crate::diesel::RunQueryDsl;
 use crate::prelude::*;
 use crate::users::*;
@@ -16,7 +16,7 @@ impl Handler <NewUser> for DbExecutor{
 
         let new_user = User{
             id: "aa".to_string(),
-            username: msg.username,
+            username: "aaaa".to_string()
         };
         
         diesel::insert_into(users)
@@ -31,7 +31,3 @@ impl Handler <NewUser> for DbExecutor{
        Ok(items.pop().unwrap())
     }
 }   
-
-struct State{
-    db: Addr<DbExecutor>,
-}
