@@ -28,8 +28,8 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
 }
 
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
-    let username = args.value_of("name").map(String::from);
+    let username = args.value_of("name").map(String::from).unwrap_or_else(|| super::ask_for("Username"));
     db.send(NewUser{
-            username: username.unwrap(),
+            username: username,
     });
 }

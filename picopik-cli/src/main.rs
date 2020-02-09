@@ -2,6 +2,8 @@ mod users;
 use clap::App;
 use std::env;
 use picopik_models::db;
+use std::io::{self, prelude::*};
+
 
 fn main() -> std::io::Result<()>{
     actix::System::run(move || {
@@ -24,4 +26,15 @@ fn main() -> std::io::Result<()>{
 	};
     actix::System::current().stop();
     })
+}
+
+pub fn ask_for(something: &str) -> String {
+    print!("{}: ", something);
+    io::stdout().flush().expect("Couldn't flush STDOUT");
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Unable to read line");
+    input.retain(|c| c != '\n');
+    input
 }
