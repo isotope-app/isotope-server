@@ -1,0 +1,14 @@
+version: '2'
+services:
+  picopik-cli:
+    build: 
+        context: .
+        dockerfile: cli-dockerfile
+    volumes:
+      - "../picopik-cli:/picopik-cli"
+    working_dir: "/."
+    command: tail -F anything
+
+
+volumes:
+  picopik:

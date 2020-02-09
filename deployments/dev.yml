@@ -1,15 +1,15 @@
 version: '2'
 services:
   picopik-server:
-    build: .
+    build: 
+        context: .
+        dockerfile: dev-dockerfile
     volumes:
       - "../:/picopik"
     command: "systemfd --no-pid -s 0.0.0.0:8080 -- cargo watch -x run"
     working_dir: "/picopik"
     ports:
       - "8080:8080"
-      
-      
   mysql:
     image: mysql:5.7
     restart: always
