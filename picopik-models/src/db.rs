@@ -16,10 +16,13 @@ impl Actor for DbExecutor{
 }
 
 pub fn start_db(database_url: String)-> Addr<DbExecutor> {
+   actix::System::run(|| {
+
     SyncArbiter::start(
         num_cpus::get(),
         move || DbExecutor::new(database_url.clone())
     )
+    });
 }
 
 impl DbExecutor{
