@@ -15,10 +15,7 @@ impl Handler <NewUser> for DbExecutor{
         use crate::schema::users::dsl::*;
 
         let new_user = NewUser{
-            id: msg.id,
             username: msg.username,
-            email: msg.email,
-            password: msg.password,
         };
         
         diesel::insert_into(users)
