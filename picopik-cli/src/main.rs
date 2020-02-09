@@ -24,6 +24,6 @@ fn main(){
 		}
 		 _ => app.print_help().expect("Couldn't print help"),
 	};
-    actix::System::stop;
+    actix::System::current().stop();
     });
 }
