@@ -1,6 +1,7 @@
 use clap::{App, Arg, SubCommand, ArgMatches};
+use picopik_models::{db};
+use picopik_models::{users::*};
 use actix::prelude::{Addr};
-use picopik_models::db;
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -58,25 +59,6 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
                 )
                 .about("Create a new user on this instance"),
         )
-        .subcommand(
-            SubCommand::with_name("reset-password")
-                .arg(
-                    Arg::with_name("name")
-                        .short("u")
-                        .long("user")
-                        .alias("username")
-                        .takes_value(true)
-                        .help("The username of the user to reset password to"),
-                )
-                .arg(
-                    Arg::with_name("password")
-                        .short("p")
-                        .long("password")
-                        .takes_value(true)
-                        .help("The new password for the user"),
-                )
-                .about("Reset user password"),
-        )
 }
 
 pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
@@ -88,5 +70,18 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
 }
 
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
-    println!("makin a new user!")
+    let username = args.value_of("name").map(String::from);
+    let display_name = args.value_of("display-name").map(String::from);
+    let email = args.value_of("email").map(String::from);
+    let password = args.value_of("password").map(String::from);
+    let role = args.value_of("role").map(String::from);
+
+    NewUser::new_local(
+        db,
+        username,
+        display_name,
+        email,
+        User::hash_pass(&password).expect("Couldn't hash password"),
+        role,
+    );
 }
