@@ -2,6 +2,7 @@ use clap::{App, Arg, SubCommand, ArgMatches};
 use picopik_models::{db};
 use picopik_models::{users::*};
 use actix::prelude::{Addr};
+use chrono;
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -68,6 +69,7 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
         _ => println!("Unknown subcommand"),
     }
 }
+
 
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
     let username = args.value_of("name").map(String::from);

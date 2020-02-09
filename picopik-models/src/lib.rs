@@ -11,3 +11,4 @@ pub mod prelude;
 pub mod error;
 pub mod db;
 pub mod users;
+pub mod newUser;

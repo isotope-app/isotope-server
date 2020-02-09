@@ -1,7 +1,6 @@
 use crate::schema::users;
 use crate::prelude::*;
 use bcrypt;
-use actix::{Message};
 //use futures::{FutureExt, TryFutureExt};
 
 pub enum Role {
@@ -14,18 +13,6 @@ impl User{
       pub fn hash_pass(pass: &str) -> Result<String> {
         bcrypt::hash(pass, 10).map_err(Error::from)
     }
-}
-
-#[derive(Queryable, Identifiable)]
-pub struct User {
-    pub id: i32,
-    pub username: String,
-    pub display_name: String,
-    pub bio: String,
-    pub email: Option<String>,
-    pub password: Option<String>,
-    pub instance_id: i32,
-    pub role: i32,
 }
 
 pub struct NewUser {
@@ -42,9 +29,18 @@ pub struct NewUser {
     pub instance_id: i32,
 }
 
-impl Message for NewUser{
-    type Result = Result <User, Error>;
+#[derive(Queryable, Identifiable)]
+pub struct User {
+    pub id: i32,
+    pub username: String,
+    pub display_name: String,
+    pub bio: String,
+    pub email: Option<String>,
+    pub password: Option<String>,
+    pub instance_id: i32,
+    pub role: i32,
 }
+
 
 //impl NewUser{
 //    pub async fn new_local(
