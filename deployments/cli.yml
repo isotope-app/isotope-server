@@ -8,8 +8,10 @@ services:
       - "../picopik-cli:/picopik/picopik-server/picopik-cli"
       - "../picopik-models:/picopik/picopik-server/picopik-models"
       - "../.env:/picopik/picopik-server/.env"
-    working_dir: "/."
+    working_dir: "/picopik/picopik-server"
     command: tail -F anything
+    env_file:
+        - ../.env
     
   mysql:
     image: mysql:5.7
