@@ -16,7 +16,7 @@ impl Handler <NewUser> for DbExecutor{
 
         let new_user = User{
             id: "aaa".to_string(),
-            username: "aaaa".to_string()
+            username: msg.username
         };
         
         diesel::insert_into(users)

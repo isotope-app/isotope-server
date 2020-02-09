@@ -27,6 +27,7 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
     }
 }
 
+//TODO: make this into a future and handle the response....
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
     let username = args.value_of("name").map(String::from).unwrap_or_else(|| super::ask_for("Username"));
     db.send(NewUser{

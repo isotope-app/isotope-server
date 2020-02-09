@@ -4,7 +4,6 @@ use std::env;
 use picopik_models::db;
 use std::io::{self, prelude::*};
 
-
 fn main() -> std::io::Result<()>{
     actix::System::run(move || {
         
