@@ -8,10 +8,11 @@ extern crate failure;
 extern crate serde_json;
 extern crate dotenv;
 
-mod db;
 mod error;
-mod prelude;
 mod api;
+
+mod db;
+use picopik_models::{prelude};
 
 use crate::db::{db_conn::new_pool, db_conn::DbExecutor};
 use crate::api::{routes::routes};
