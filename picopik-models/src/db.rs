@@ -5,6 +5,7 @@ use diesel::{
     r2d2::{self, ConnectionManager, Pool, PooledConnection}
 };
 
+
 pub type Connection = MysqlConnection;
 pub type MysqlPool = Pool<ConnectionManager<Connection>>;
 pub type PooledConn = PooledConnection<ConnectionManager<Connection>>;

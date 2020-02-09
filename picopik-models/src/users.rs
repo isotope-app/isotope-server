@@ -1,9 +1,7 @@
 use crate::schema::users;
 use crate::prelude::*;
-use crate::db;
 use bcrypt;
-use actix::prelude::{Addr};
-
+use actix::{Message};
 //use futures::{FutureExt, TryFutureExt};
 
 pub enum Role {
@@ -30,8 +28,6 @@ pub struct User {
     pub role: i32,
 }
 
-#[derive (Insertable)]
-#[table_name = "users"]
 pub struct NewUser {
     pub id: i32,
     pub username: String,
@@ -44,36 +40,38 @@ pub struct NewUser {
     pub created_at: chrono::NaiveDateTime,
     pub last_online: chrono::NaiveDateTime,
     pub instance_id: i32,
-
 }
 
-
-impl NewUser{
-    pub async fn new_local(
-        db: Addr<db::DbExecutor>,
-        username: String,
-        display_name: String,
-        email: String,
-        password: String,
-        role: Role,
-    ) -> Result<String>{
-        let new_local = NewUser{
-            id: 1,
-            username,
-            email,
-            password,
-            bio : "bio".to_string(),
-            image:"image".to_string(),
-            role:0,
-            display_name : "display_name".to_string(),
-            created_at : chrono::offset::Utc::now().naive_utc(),
-            last_online : chrono::offset::Utc::now().naive_utc(),
-            instance_id : 0
-        };
-        let response = db.send(new_local).compat().await.map_err(|_| ())?;
-        match response{
-            Ok(_new_local) => Ok("cool".to_string()),
-            Err(_e) => Ok("hello".to_string())
-        }
-    }
+impl Message for NewUser{
+    type Result = Result <User, Error>;
 }
+
+//impl NewUser{
+//    pub async fn new_local(
+//        db: Addr<db::DbExecutor>,
+//        username: String,
+//        display_name: String,
+//        email: String,
+//        password: String,
+//        role: Role,
+//    ) -> Result<String>{
+//        let new_local = NewUser{
+//            id: 1,
+//            username,
+//            email,
+//            password,
+//            bio : "bio".to_string(),
+//            image:"image".to_string(),
+//            role:0,
+//            display_name : "display_name".to_string(),
+//            created_at : chrono::offset::Utc::now().naive_utc(),
+//            last_online : chrono::offset::Utc::now().naive_utc(),
+//            instance_id : 0
+//        };
+//        let response = db.send(new_local).compat().await.map_err(|_| ())?;
+//        match response{
+//            Ok(_new_local) => Ok("cool".to_string()),
+//            Err(_e) => Ok("hello".to_string())
+//        }
+//    }
+//}
