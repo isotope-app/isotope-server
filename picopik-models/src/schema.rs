@@ -17,6 +17,8 @@ table! {
         password -> Text,
         bio -> Nullable<Varchar>,
         image -> Nullable<Text>,
+        role -> Integer,
+        display_name -> Varchar,
         created_at -> Timestamp,
         last_online -> Timestamp,
         instance_id -> Integer,
