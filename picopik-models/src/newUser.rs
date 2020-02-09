@@ -14,28 +14,20 @@ impl Handler <NewUser> for DbExecutor{
     fn handle(&mut self, msg:NewUser, _: &mut Self::Context) -> Self::Result {
         use crate::schema::users::dsl::*;
 
-
         let new_user = NewUser{
             id: msg.id,
             username: msg.username,
             email: msg.email,
             password: msg.password,
-            bio : msg.bio,
-            image: msg.image,
-            role: msg.role,
-            display_name : msg.display_name,
-            created_at : msg.created_at,
-            last_online : msg.last_online,
-            instance_id : msg.instance_id,
         };
         
         diesel::insert_into(users)
                 .values(&new_user)
-                .execute(conn)
+                .execute(&self.0.get().unwrap())
                 .expect("Error creating user");
                 
        let mut items = users
-                .load::<User>(conn)
+                .load::<User>(&self.0.get().unwrap())
                 .expect("Error loading person");
 
        Ok(items.pop().unwrap())

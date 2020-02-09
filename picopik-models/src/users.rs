@@ -2,13 +2,6 @@ use crate::schema::users;
 use serde::{Deserialize, Serialize};
 //use futures::{FutureExt, TryFutureExt};
 
-pub enum Role {
-    Admin = 0,
-    Moderator = 1,
-    Normal = 2,
-}
-
-
 #[derive(Debug, Clone, Serialize, Queryable, Insertable)]
 pub struct User {
     pub id: i32,
@@ -27,13 +20,6 @@ pub struct NewUser{
     pub username: String,
     pub email: String, 
     pub password: String,
-    pub bio: String,
-    pub image: String, 
-    pub role: i32,
-    pub display_name: String,
-    pub created_at: chrono::NaiveDateTime,
-    pub last_online: chrono::NaiveDateTime,
-    pub instance_id: i32,
 }
 
 

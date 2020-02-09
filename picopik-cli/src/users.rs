@@ -72,21 +72,12 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
 
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
     let username = args.value_of("name").map(String::from);
-    let display_name = args.value_of("display-name").map(String::from);
     let email = args.value_of("email").map(String::from);
     let password = args.value_of("password").map(String::from);
-    let role = args.value_of("role").map(String::from);
     db.send(NewUser{
             id: 1,
             username: "".to_string(),
             email: "".to_string(),
             password: "".to_string(),
-            bio : "bio".to_string(),
-            image:"image".to_string(),
-            role:0,
-            display_name : "display_name".to_string(),
-            created_at : chrono::offset::Utc::now().naive_utc(),
-            last_online : chrono::offset::Utc::now().naive_utc(),
-            instance_id : 0
     });
 }
