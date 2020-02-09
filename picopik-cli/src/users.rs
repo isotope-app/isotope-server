@@ -1,4 +1,6 @@
-use clap::{App, Arg, SubCommand};
+use clap::{App, Arg, SubCommand, ArgMatches};
+use actix::prelude::{Addr};
+use picopik_models::db;
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name("users")
@@ -75,4 +77,16 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
                 )
                 .about("Reset user password"),
         )
+}
+
+pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
+    match args.subcommand() {
+        ("new", Some(x)) => new(x, db),
+        ("", None) => command().print_help().unwrap(),
+        _ => println!("Unknown subcommand"),
+    }
+}
+
+fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
+    println!("makin a new user!")
 }

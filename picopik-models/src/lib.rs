@@ -9,3 +9,4 @@ extern crate serde_json;
 pub mod schema;
 pub mod prelude;
 pub mod error;
+pub mod db;
