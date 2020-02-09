@@ -15,7 +15,7 @@ impl Handler <NewUser> for DbExecutor{
         use crate::schema::users::dsl::*;
 
         let new_user = User{
-            id: "aa".to_string(),
+            id: "aaa".to_string(),
             username: "aaaa".to_string()
         };
         
