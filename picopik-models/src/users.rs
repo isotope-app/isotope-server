@@ -1,6 +1,5 @@
 use crate::schema::users;
-use crate::prelude::*;
-use bcrypt;
+use serde::{Deserialize, Serialize};
 //use futures::{FutureExt, TryFutureExt};
 
 pub enum Role {
@@ -9,27 +8,8 @@ pub enum Role {
     Normal = 2,
 }
 
-impl User{
-      pub fn hash_pass(pass: &str) -> Result<String> {
-        bcrypt::hash(pass, 10).map_err(Error::from)
-    }
-}
 
-pub struct NewUser {
-    pub id: i32,
-    pub username: String,
-    pub email:String, 
-    pub password: String,
-    pub bio: String,
-    pub image: String, 
-    pub role: i32,
-    pub display_name: String,
-    pub created_at: chrono::NaiveDateTime,
-    pub last_online: chrono::NaiveDateTime,
-    pub instance_id: i32,
-}
-
-#[derive(Queryable, Identifiable)]
+#[derive(Debug, Clone, Serialize, Queryable, Insertable)]
 pub struct User {
     pub id: i32,
     pub username: String,
@@ -39,6 +19,21 @@ pub struct User {
     pub password: Option<String>,
     pub instance_id: i32,
     pub role: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NewUser{
+    pub id:  i32,
+    pub username: String,
+    pub email: String, 
+    pub password: String,
+    pub bio: String,
+    pub image: String, 
+    pub role: i32,
+    pub display_name: String,
+    pub created_at: chrono::NaiveDateTime,
+    pub last_online: chrono::NaiveDateTime,
+    pub instance_id: i32,
 }
 
 

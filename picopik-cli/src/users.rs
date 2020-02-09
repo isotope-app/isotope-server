@@ -70,7 +70,6 @@ pub fn run<'a>(args: &ArgMatches<'a>, db: Addr<db::DbExecutor>) {
     }
 }
 
-
 fn new<'a>(args: &ArgMatches<'a>, db:Addr<db::DbExecutor>){
     let username = args.value_of("name").map(String::from);
     let display_name = args.value_of("display-name").map(String::from);

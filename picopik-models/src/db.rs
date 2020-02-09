@@ -20,6 +20,7 @@ pub fn start_db(database_url: String)-> Addr<DbExecutor> {
         num_cpus::get(),
         move || DbExecutor::new(database_url.clone())
     )
+    
 }
 
 impl DbExecutor{
