@@ -6,7 +6,7 @@ services:
         dockerfile: dev-dockerfile
     volumes:
       - "../:/picopik"
-    command: "systemfd --no-pid -s 0.0.0.0:8080 -- cargo watch -x run"
+    command: "systemfd --no-pid -s 0.0.0.0:8080 -- cargo watch -w -s 'cargo run --bin picopik-api'"
     working_dir: "/picopik"
     ports:
       - "8080:8080"
