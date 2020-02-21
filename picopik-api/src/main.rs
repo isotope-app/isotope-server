@@ -8,7 +8,7 @@ extern crate dotenv;
 mod api;
 
 mod db;
-use picopik_models::{prelude};
+use picopik_core::{prelude};
 
 
 use crate::db::{db_conn::new_pool, db_conn::DbExecutor};

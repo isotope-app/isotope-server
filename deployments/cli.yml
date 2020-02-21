@@ -6,7 +6,7 @@ services:
         dockerfile: cli-dockerfile
     volumes:
       - "../picopik-cli:/picopik/picopik-server/picopik-cli"
-      - "../picopik-models:/picopik/picopik-server/picopik-models"
+      - "../picopik-core:/picopik/picopik-server/picopik-core"
       - "../.env:/picopik/picopik-server/.env"
     working_dir: "/picopik/picopik-server"
     command: tail -F anything

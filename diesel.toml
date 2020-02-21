@@ -2,4 +2,4 @@
 # see diesel.rs/guides/configuring-diesel-cli
 
 [print_schema]
-file = "../picopik-models/schema.rs"
+file = "../picopik-core/schema.rs"
