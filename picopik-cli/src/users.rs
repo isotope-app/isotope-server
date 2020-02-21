@@ -1,6 +1,6 @@
 use clap::{App, Arg, SubCommand, ArgMatches};
-use picopik_models::{db};
-use picopik_models::{users::*};
+use picopik_core::{db};
+use picopik_core::{users::*};
 use actix::prelude::{Addr};
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {

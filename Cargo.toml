@@ -1,2 +1,2 @@
 [workspace]
-members = ["picopik-cli", "picopik-models", "picopik-api"]
+members = ["picopik-cli", "picopik-core", "picopik-api"]
