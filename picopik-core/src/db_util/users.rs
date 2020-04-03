@@ -1,4 +1,4 @@
-use crate::schema::users;
+use crate::db_util::schema::users;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Queryable, Insertable)]

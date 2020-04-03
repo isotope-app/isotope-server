@@ -2,7 +2,7 @@ use crate::db::*;
 use actix::{Handler, Message};
 use crate::diesel::RunQueryDsl;
 use crate::prelude::*;
-use crate::users::*;
+use crate::db_util::users::*;
 
 impl Message for NewUser{
     type Result = Result <User, Error>;
@@ -12,7 +12,7 @@ impl Handler <NewUser> for DbExecutor{
     type Result = Result<User, Error>;
     
     fn handle(&mut self, msg:NewUser, _: &mut Self::Context) -> Self::Result {
-        use crate::schema::users::dsl::*;
+        use crate::db_util::schema::users::dsl::*;
 
         let new_user = User{
             id: "aaa".to_string(),

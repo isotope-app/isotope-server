@@ -2,6 +2,18 @@ use actix_web::{HttpRequest, HttpResponse}
 use regex::Regex; 
 use validator::Validate;
 
+pub fn create_user(args: &ArgMatches <'a>, db:MysqlConnection){
+    use schema::users;
+    let username = args.value_of("name").map(String::from).unwrap_or_else(|| super::ask_for("Username"));
+    
+    diesel::insert_into(users::table)
+        .values(NewUser{
+            username: username,
+            })
+        .execute(conn)
+        .expect("Error creating new user");    
+}
+
 lazy_static! {
 	static ref RE_USERNAME: Regex::new(r"^[_0-9a-zA-z]+$").unwrap();
 }
